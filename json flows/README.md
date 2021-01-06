@@ -7,4 +7,4 @@ The model has been built using Node-Red and Watson Tone Analyser collaborated by
 - Tweets and metadata are stored in Cloudant
 - The Web UI displays charts and graphs.
 
-![](json%20flows/Flowdaig/pic01.png)
+![](Flowdiag/pic01.png)
