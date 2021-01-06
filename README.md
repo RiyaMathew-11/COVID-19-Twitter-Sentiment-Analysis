@@ -7,3 +7,5 @@ In this Project, public Twitter feed corresponding to COVID-19 from around the g
 The dashboard had been built using Node-Red and Watson Tone Analyser supported by IBM Cloud
 
 The resulting analysis is presented in a Node-Red based Web UI.
+
+![](images/pic02.png)
