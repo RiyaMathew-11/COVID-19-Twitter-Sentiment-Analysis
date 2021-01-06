@@ -9,3 +9,5 @@ The dashboard had been built using Node-Red and Watson Tone Analyser supported b
 The resulting analysis is presented in a Node-Red based Web UI.
 
 ![](images/pic02.png)
+
+You can find the final project [here](https://covid19-twitter-sentiment-analysis.eu-gb.mybluemix.net/ui/#!/0?socketid=bV3Hp6429DQ91wssAAAD)
