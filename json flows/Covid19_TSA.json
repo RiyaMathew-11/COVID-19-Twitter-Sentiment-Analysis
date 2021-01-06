@@ -1,0 +1,464 @@
+[
+    {
+        "id": "48c332b8.1d734c",
+        "type": "tab",
+        "label": "Tweet Sentiment",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "45dafa41.7cdfd4",
+        "type": "debug",
+        "z": "48c332b8.1d734c",
+        "name": "Positive Tweet debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "cf650d85.2a22c",
+        "type": "switch",
+        "z": "48c332b8.1d734c",
+        "name": "Positive / Negative Tweets",
+        "property": "sentiment.score",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gte",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "lt",
+                "v": "-1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "45dafa41.7cdfd4"
+            ],
+            [
+                "e23b1ba0.7e9588"
+            ]
+        ]
+    },
+    {
+        "id": "414c2798.a5de48",
+        "type": "debug",
+        "z": "48c332b8.1d734c",
+        "name": "msg.sentiment.score",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "sentiment.score",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "eb473aca.f16878",
+        "type": "twitter in",
+        "z": "48c332b8.1d734c",
+        "twitter": "",
+        "tags": "#COVID-19,#covid19,#corona",
+        "user": "false",
+        "name": "Listen to twitter feed",
+        "inputs": 1,
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "f33354b.61c71a8",
+                "e058e87e.d72eb8",
+                "c0d564e.9c28998"
+            ]
+        ]
+    },
+    {
+        "id": "f33354b.61c71a8",
+        "type": "debug",
+        "z": "48c332b8.1d734c",
+        "name": "msg.tweet details",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "tweet",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "3d385fb3.5b0bb",
+        "type": "sentiment",
+        "z": "48c332b8.1d734c",
+        "name": "Sentiment of Tweets",
+        "property": "payload",
+        "x": 350,
+        "y": 340,
+        "wires": [
+            [
+                "414c2798.a5de48",
+                "cf650d85.2a22c",
+                "8f5ca605.7a0d48"
+            ]
+        ]
+    },
+    {
+        "id": "e23b1ba0.7e9588",
+        "type": "debug",
+        "z": "48c332b8.1d734c",
+        "name": "Negative Tweets",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 900,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "e058e87e.d72eb8",
+        "type": "function",
+        "z": "48c332b8.1d734c",
+        "name": "Remove URLS and replace #",
+        "func": "var tweet = msg.tweet.text;\nvar newtweet = tweet.replace(/#/g, \" Hash tag \");\n\n// regex from https://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript\nmsg.payload = newtweet.replace( /(([a-z]+:\\/\\/)?(([a-z0-9\\-]+\\.)+([a-z]{2}|biz|com|co|edu|gov|info|net|org|ly))(:[0-9]{1,5})?(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&amp;]*)?)?(#[a-zA-Z0-9!$&'()*+.=-_~:@/?]*)?)(\\s+|$)/gi, \"see short URL \" );\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 520,
+        "y": 140,
+        "wires": [
+            [
+                "ca81b191.fa04d",
+                "3d385fb3.5b0bb"
+            ]
+        ]
+    },
+    {
+        "id": "ca81b191.fa04d",
+        "type": "debug",
+        "z": "48c332b8.1d734c",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "c0d564e.9c28998",
+        "type": "debug",
+        "z": "48c332b8.1d734c",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "tweet.text",
+        "x": 640,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "166551a2.bd451e",
+        "type": "comment",
+        "z": "48c332b8.1d734c",
+        "name": "Pick a #hashtag to follow",
+        "info": "",
+        "x": 120,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8f5ca605.7a0d48",
+        "type": "delay",
+        "z": "48c332b8.1d734c",
+        "name": "1msg/7",
+        "pauseType": "rate",
+        "timeout": "15",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "7",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 280,
+        "y": 520,
+        "wires": [
+            [
+                "f5751ff6.ac023",
+                "9e85b24f.1aa12",
+                "d23672e8.25405"
+            ]
+        ]
+    },
+    {
+        "id": "733ab169.b2ec3",
+        "type": "cloudant out",
+        "z": "48c332b8.1d734c",
+        "name": "Tweet Storage",
+        "cloudant": "",
+        "database": "twitter-dashboard",
+        "service": "node-red-otkti-2020--cloudant-1608213694849-27895",
+        "payonly": false,
+        "operation": "insert",
+        "x": 960,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "f5751ff6.ac023",
+        "type": "function",
+        "z": "48c332b8.1d734c",
+        "name": "Tweet Storage",
+        "func": "// tweet object includes a timestamp_ms\nmsg.payload = { \"timestamp\" : msg.tweet.timestamp_ms ,\n                \"tweet\"     : msg.tweet.text,\n                \"sentiment\" : msg.sentiment.score};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 740,
+        "y": 500,
+        "wires": [
+            [
+                "733ab169.b2ec3"
+            ]
+        ]
+    },
+    {
+        "id": "9e85b24f.1aa12",
+        "type": "change",
+        "z": "48c332b8.1d734c",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "tweet.text",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 560,
+        "wires": [
+            [
+                "4a19e24d.8327dc"
+            ]
+        ]
+    },
+    {
+        "id": "d23672e8.25405",
+        "type": "change",
+        "z": "48c332b8.1d734c",
+        "name": "change: 2 rules",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "sentiment.score",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 740,
+        "y": 640,
+        "wires": [
+            [
+                "58d7d87e.4f7f68",
+                "62d59d9e.b5bc54"
+            ]
+        ]
+    },
+    {
+        "id": "4a19e24d.8327dc",
+        "type": "ui_text",
+        "z": "48c332b8.1d734c",
+        "group": "fec8d4cb.a0be88",
+        "order": 1,
+        "width": "10",
+        "height": "3",
+        "name": "",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 930,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "58d7d87e.4f7f68",
+        "type": "ui_gauge",
+        "z": "48c332b8.1d734c",
+        "name": "",
+        "group": "9965036.3b5e6",
+        "order": 1,
+        "width": "6",
+        "height": "4",
+        "gtype": "gage",
+        "title": "Sentiment Level",
+        "label": "units",
+        "format": "{{value}}",
+        "min": "-10",
+        "max": 10,
+        "colors": [
+            "#b30000",
+            "#e6e600",
+            "#008563"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 1040,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "62d59d9e.b5bc54",
+        "type": "ui_chart",
+        "z": "48c332b8.1d734c",
+        "name": "",
+        "group": "fec8d4cb.a0be88",
+        "order": 2,
+        "width": "10",
+        "height": "7",
+        "label": "Tweet Sentiment History",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "-10",
+        "ymax": "10",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#0f66a3",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 1070,
+        "y": 700,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "17ab7ad0.f89555",
+        "type": "twitter out",
+        "z": "48c332b8.1d734c",
+        "twitter": "",
+        "name": "Retweet positive tweets",
+        "x": 970,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "e0732719.c9ff08",
+        "type": "comment",
+        "z": "48c332b8.1d734c",
+        "name": "Check for positive tweets and negative tweets",
+        "info": "",
+        "x": 950,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "e4df0aa8.245a68",
+        "type": "comment",
+        "z": "48c332b8.1d734c",
+        "name": "Response on Analysis",
+        "info": "",
+        "x": 1100,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "fec8d4cb.a0be88",
+        "type": "ui_group",
+        "z": "",
+        "name": "Tweet Details",
+        "tab": "d3391848.fc9518",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false
+    },
+    {
+        "id": "9965036.3b5e6",
+        "type": "ui_group",
+        "z": "",
+        "name": "Tweet Scoreboard",
+        "tab": "d3391848.fc9518",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "d3391848.fc9518",
+        "type": "ui_tab",
+        "z": "",
+        "name": "COVID-19 Twitter Sentiment Analysis",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
