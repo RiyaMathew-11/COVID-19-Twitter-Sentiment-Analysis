@@ -11,3 +11,5 @@ The resulting analysis is presented in a Node-Red based Web UI.
 ![](images/pic02.png)
 
 You can find the final project [here](https://covid19-twitter-sentiment-analysis.eu-gb.mybluemix.net/ui/#!/0?socketid=bV3Hp6429DQ91wssAAAD)
+
+Want to know more ? Check out documentation [here](https://drive.google.com/file/d/1CxGd7p1e5f5jWCD93Eo6hLpb3j4D3ySg/view?usp=sharing)
